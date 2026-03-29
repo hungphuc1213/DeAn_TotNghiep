@@ -160,7 +160,7 @@ class CollaborativeFilteringRecommender:
 # ══════════════════════════════════════════════════════════
 @st.cache_resource(show_spinner="Đang tải dữ liệu và model...")
 def load_all():
-    train = pd.read_csv("all_df.csv")
+    train = pd.read_csv("train_df.csv")
     seg_df = pd.read_csv("user_segment.csv")
 
     train["review_score"] = train["review_score"].fillna(
