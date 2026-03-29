@@ -181,8 +181,15 @@ def load_all():
 
     with open("pop_model.pkl", "rb") as f:
         pop = pickle.load(f)
-    with open("cb_model.pkl", "rb") as f:
-        cb = pickle.load(f)
+    # Load Content-Based tu lightweight files
+    tfidf_sparse = sp.load_npz("tfidf_matrix.npz")
+    with open("cb_meta.pkl", "rb") as f:
+        cb_meta = pickle.load(f)
+    cb = ContentBasedRecommender(top_n=10)
+    cb.sim_matrix = cosine_similarity(tfidf_sparse, tfidf_sparse)
+    cb.pid_to_idx = cb_meta["pid_to_idx"]
+    cb.idx_to_pid = cb_meta["idx_to_pid"]
+    cb.tfidf      = cb_meta["tfidf"]
     with open("cf_model.pkl", "rb") as f:
         cf = pickle.load(f)
     with open("seg_dict.pkl", "rb") as f:
