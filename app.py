@@ -1510,15 +1510,23 @@ with tab_rules:
             "Khách đã mua (A)", "Engine gợi ý thêm (B)",
             "Support", "Confidence", "Lift",
         ]
-        st.dataframe(
-            display.style.applymap(
-                lambda v: "background:#D1FAE5; font-weight:bold; color:#065F46"
-                if isinstance(v, str) and "×" in v
-                   and float(v.replace("×","")) >= 4.0
-                else "",
-            ),
-            use_container_width=True, hide_index=True,
-        )
+
+        def _highlight_lift(v):
+            try:
+                if isinstance(v, str) and "×" in v and float(v.replace("×", "")) >= 4.0:
+                    return "background:#D1FAE5; font-weight:bold; color:#065F46"
+            except Exception:
+                pass
+            return ""
+
+        try:
+            # pandas >= 2.1
+            styled = display.style.map(_highlight_lift)
+        except AttributeError:
+            # pandas < 2.1 fallback
+            styled = display.style.applymap(_highlight_lift)
+
+        st.dataframe(styled, use_container_width=True, hide_index=True)
     else:
         st.info("Không có luật nào thoả điều kiện — thử giảm ngưỡng Lift hoặc Confidence.")
 
