@@ -1348,7 +1348,7 @@ with tab_compare:
             "Hit Rate@10":      0.0950,
         },
         {
-            "Mô Hình":          "🛒 Collaborative Filter (Tầng 3)",
+            "Mô Hình":          "🛒 Association Rules (Tầng 3)",
             "Phân Khúc Target": "regular + vip (≥4 đơn)",
             "Số User Test":     23,
             "Precision@10":     0.0435,
